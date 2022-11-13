@@ -113,7 +113,7 @@ const Dashbaord = () => {
                         isPreview={false}
                       />
                       <div className={styles.image} onClick={() => handleDelete(job.id)}>
-                        <Image src='/delete.png' alt='delete' width={512} height={512} />
+                        <Image src='/delete.png' alt='delete' width={32} height={32} />
                       </div>
                     </div>
                   )
