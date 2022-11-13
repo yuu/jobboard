@@ -9,7 +9,7 @@ const Thumbnail = () => {
 
   return (
     <div className={styles.thumbnail}>
-      <Job letter={companyName[0]} date={date} title={jobTitle} company={companyName} location={jobArea} />
+      <Job id={0} letter={companyName[0]} date={date} title={jobTitle} company={companyName} location={jobArea} />
     </div>
   )
 }

@@ -1,6 +1,21 @@
 import { useState, useEffect } from 'react'
 import styles from 'styles/input.module.css'
 
+interface InputProps {
+  htmlFor: string
+  label: string
+  type?: string
+  autoFocus?: boolean
+  value?: string
+  handleOnChange: (value: string) => void
+  err?: string
+  dropdown?: boolean
+  widthMax?: boolean
+  firstChildtopMargin?: boolean
+  mediumMargin?: boolean
+  placeholder?: string
+}
+
 const Input = ({
   htmlFor,
   label,
@@ -14,7 +29,7 @@ const Input = ({
   firstChildtopMargin = false,
   mediumMargin = false,
   placeholder
-}) => {
+}: InputProps) => {
   const [container, setContainer] = useState(styles.container)
 
   useEffect(() => {
@@ -46,8 +61,8 @@ const Input = ({
               <textarea
                 placeholder={placeholder}
                 onChange={e => handleOnChange(e.target.value)}
-                cols='30'
-                rows='10'
+                cols={30}
+                rows={10}
                 className={styles.input}
               ></textarea>
               {err !== '' && <p className={styles.err}>{err}</p>}
@@ -86,8 +101,8 @@ const Input = ({
               {label}
             </label>
             <select className={styles.input} onChange={e => handleOnChange(e.target.value)}>
-              <option value={true}>Yes</option>
-              <option value={false}>No</option>
+              <option value={'true'}>Yes</option>
+              <option value={'false'}>No</option>
             </select>
           </>
         )}

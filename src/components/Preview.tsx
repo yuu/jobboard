@@ -8,6 +8,7 @@ import { JobContext } from 'src/components/context/JobContext'
 import { AuthContext } from 'src/components/context/AuthContext'
 import styles from 'styles/preview.module.css'
 import fire from 'src/utils/firebase'
+import { getFirestore, doc, updateDoc } from 'firebase/firestore'
 
 const Preview = ({ mainPreview = false }) => {
   // auth context data
@@ -44,7 +45,7 @@ const Preview = ({ mainPreview = false }) => {
 
       let id
       try {
-        id = parseInt(newState[0].id) + 1
+        id = newState[0].id + 1
       } catch (err) {
         id = 1
       }
@@ -66,23 +67,14 @@ const Preview = ({ mainPreview = false }) => {
       newState.unshift(jobInfo)
       newUserJobs.unshift(jobInfo)
 
-      const db = fire.firestore()
-      const eml = localStorage.getItem('email')
-      db.collection('users')
-        .doc(eml)
-        .update({
-          jobList: newUserJobs
-        })
-        .catch(err => {
-          console.log('Error updating the database', err)
-        })
-
-      db.collection('jobs')
-        .doc('jobsDocument')
-        .update({ allJobs: newState })
-        .catch(err => {
-          console.log('Error updating the database', err)
-        })
+      const db = getFirestore(fire)
+      const eml = localStorage.getItem('email') ?? 'eml'
+      updateDoc(doc(db, 'users', eml), { jobList: newUserJobs }).catch(err => {
+        console.log('Error updating the database', err)
+      })
+      updateDoc(doc(db, 'jobs', 'jobsDocument'), { allJobs: newState }).catch(err => {
+        console.log('Error updating the database', err)
+      })
 
       setJobs(newState)
       setUserJobs(newUserJobs)
@@ -100,7 +92,7 @@ const Preview = ({ mainPreview = false }) => {
 
     let id
     try {
-      id = parseInt(newUserJobs[0].id) + 1
+      id = newUserJobs[0].id + 1
     } catch (err) {
       id = 1
     }

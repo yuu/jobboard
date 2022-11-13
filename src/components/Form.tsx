@@ -1,10 +1,14 @@
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, MouseEventHandler } from 'react'
 import { HireContext } from 'src/components/context/HireContext'
 import Input from 'src/components/common/Input'
 import Button from 'src/components/common/Button'
 import styles from 'styles/form.module.css'
 
-const Form = ({ onClick }) => {
+interface FormProps {
+  onClick?: MouseEventHandler<HTMLButtonElement>
+}
+
+const Form = ({ onClick }: FormProps) => {
   // job contexts
   const { jobTitle, setJobTitle } = useContext(HireContext)
   const { jobType, setJobType } = useContext(HireContext)

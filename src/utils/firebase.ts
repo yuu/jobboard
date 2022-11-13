@@ -2,7 +2,7 @@ import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
 import 'firebase/compat/firestore'
 
-var firebaseConfig = {
+const firebaseConfig = {
   apiKey: `${process.env.NEXT_PUBLIC_Firebase_API_Key}`,
   authDomain: `${process.env.NEXT_PUBLIC_Auth_Domain}`,
   projectId: `${process.env.NEXT_PUBLIC_Project_Id}`,
@@ -11,6 +11,6 @@ var firebaseConfig = {
   appId: `${process.env.NEXT_PUBLIC_App_Id}`
 }
 
-let fire = firebase.initializeApp(firebaseConfig)
+const fire = firebase.initializeApp(firebaseConfig)
 
 export default fire

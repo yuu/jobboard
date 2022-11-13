@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react'
+import { useEffect, useContext, useCallback } from 'react'
 import { useRouter } from 'next/router'
 import { AuthContext } from 'src/components/context/AuthContext'
 import Input from 'src/components/common/Input'
@@ -11,7 +11,7 @@ import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged } from 'fir
 import { getFirestore, doc, setDoc } from 'firebase/firestore'
 
 const SignUp = () => {
-  const { user, setUser } = useContext(AuthContext)
+  const { setUser } = useContext(AuthContext)
   const { email, setEmail } = useContext(AuthContext)
   const { password, setPassword } = useContext(AuthContext)
   const { emailErr, setEmailErr } = useContext(AuthContext)
@@ -20,31 +20,16 @@ const SignUp = () => {
   const { hasSignedIn } = useContext(AuthContext)
   const router = useRouter()
 
-  /**
-   *
-   *
-   * reset values ofo inputs to empty string
-   */
-  const clearInput = () => {
+  const clearInput = useCallback(() => {
     setEmail('')
     setPassword('')
-  }
+  }, [setEmail, setPassword])
 
-  /**
-   *
-   *
-   * reset values of errors to empty string
-   */
-  const clearErrs = () => {
+  const clearErrs = useCallback(() => {
     setEmailErr('')
     setPasswordErr('')
-  }
+  }, [setEmailErr, setPasswordErr])
 
-  /**
-   *
-   *
-   * sign up a new user
-   */
   const handleSignUp = async () => {
     clearErrs()
     const auth = getAuth(fire)
@@ -68,18 +53,14 @@ const SignUp = () => {
         if (code === 'auth/weak-password') {
           setPasswordErr(message)
         }
+
         return
       }
       console.error('Error adding document: ', err)
     }
   }
 
-  /**
-   *
-   *
-   * checks where the user is logged in or not
-   */
-  const authListener = () => {
+  const authListener = useCallback(() => {
     const auth = getAuth(fire)
     onAuthStateChanged(auth, user => {
       if (user) {
@@ -89,14 +70,14 @@ const SignUp = () => {
         setUser('')
       }
     })
-  }
+  }, [setUser, clearInput])
 
   useEffect(() => {
     authListener()
     if (hasSignedIn) {
       router.push('/')
     }
-  }, [])
+  }, [authListener, router, hasSignedIn])
 
   return (
     <div className={styles.container}>
@@ -118,7 +99,12 @@ const SignUp = () => {
           handleOnChange={setPassword}
           err={passwordErr}
         />
-        <Input htmlFor='isOrg' label='Are you signing up as a company?' dropdown={true} handleOnChange={setIsOrg} />
+        <Input
+          htmlFor='isOrg'
+          label='Are you signing up as a company?'
+          dropdown={true}
+          handleOnChange={ev => setIsOrg(ev)}
+        />
         <Button label='Sign Up' onClick={handleSignUp} />
         <HelperMsg content='Already have an account?' option='Sign in' url='login' />
       </div>

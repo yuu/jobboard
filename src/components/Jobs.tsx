@@ -1,7 +1,13 @@
-import Job from './common/Job'
+import Job from 'src/components/common/Job'
 import styles from 'styles/jobs.module.css'
+import { JobList } from 'src/types'
 
-const Jobs = ({ label, jobs }) => {
+interface JobsProps {
+  jobs: JobList
+  label: string
+}
+
+const Jobs = ({ label, jobs }: JobsProps) => {
   return (
     <div className={styles.container}>
       <div className={styles.day}>
@@ -10,17 +16,15 @@ const Jobs = ({ label, jobs }) => {
       <div className={styles.jobs}>
         {jobs.map(job => {
           return (
-            <>
-              <Job
-                id={job.id}
-                key={job.id}
-                letter={job.companyName[0]}
-                title={job.jobTitle}
-                date={job.date}
-                company={job.companyName}
-                location={job.jobArea}
-              />
-            </>
+            <Job
+              id={job.id}
+              key={job.id}
+              letter={job.companyName[0]}
+              title={job.jobTitle}
+              date={job.date}
+              company={job.companyName}
+              location={job.jobArea}
+            />
           )
         })}
       </div>

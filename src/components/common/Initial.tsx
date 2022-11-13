@@ -1,6 +1,11 @@
 import styles from 'styles/initial.module.css'
 
-const Initial = ({ letter, name = '' }) => {
+interface InitialProps {
+  letter: string
+  name?: string
+}
+
+const Initial = ({ letter, name = '' }: InitialProps) => {
   return (
     <p className={styles.initial}>
       {letter} <br />

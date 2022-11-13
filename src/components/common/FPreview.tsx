@@ -3,7 +3,11 @@ import { JobContext } from 'src/components/context/JobContext'
 import { HireContext } from 'src/components/context/HireContext'
 import Preview from 'src/components/Preview'
 
-const FPreview = ({ id }) => {
+interface FPreviewProps {
+  id: number
+}
+
+const FPreview = ({ id }: FPreviewProps) => {
   // job contexts
   const { setJobTitle, setJobType, setJobArea, setJobDescription, setJobLink } = useContext(HireContext)
 
@@ -13,7 +17,7 @@ const FPreview = ({ id }) => {
   const { jobs } = useContext(JobContext)
 
   useEffect(() => {
-    let index
+    let index = 0
     for (let i = 0; i < jobs.length; i++) {
       if (jobs[i].id === id) {
         index = i

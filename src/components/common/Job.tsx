@@ -4,7 +4,17 @@ import FPreview from './FPreview'
 import Initial from './Initial'
 import styles from 'styles/job.module.css'
 
-const Job = ({ letter, title, date, company, location, id, isPreview = true }) => {
+interface JobProps {
+  id: number
+  letter: string
+  title: string
+  date: string
+  company: string
+  location: string
+  isPreview?: boolean
+}
+
+const Job = ({ letter, title, date, company, location, id, isPreview = true }: JobProps) => {
   const [showJob, setShowJob] = useState(false)
 
   /**

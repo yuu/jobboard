@@ -1,8 +1,13 @@
+import { ReactNode } from 'react'
 import SEO from './SEO'
 import Nav from 'src/components/common/Nav'
 import Footer from 'src/components/Footer'
 
-const Layout = ({ children }) => {
+interface LayoutProps {
+  children: ReactNode
+}
+
+const Layout = ({ children }: LayoutProps) => {
   return (
     <>
       <SEO />

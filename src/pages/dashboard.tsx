@@ -53,7 +53,7 @@ const Dashbaord = () => {
    *
    *	delete job
    */
-  const handleDelete = async id => {
+  const handleDelete = async (id: number) => {
     let firstIndex, secondIndex
     for (let i = 0; i < userJobs.length; i++) {
       if (userJobs[i].id === id) {
@@ -63,17 +63,17 @@ const Dashbaord = () => {
     }
 
     for (let i = 0; i < jobs.length; i++) {
-      if (jobs[i].id === id) {
+      if (jobs[i]?.id === id) {
         secondIndex = i
         break
       }
     }
 
     const newState = [...userJobs]
-    newState.splice(firstIndex, 1)
+    newState.splice(firstIndex ?? 0, 1)
 
     const newJobState = [...jobs]
-    newJobState.splice(secondIndex, 1)
+    newJobState.splice(secondIndex ?? 0, 1)
 
     try {
       const eml = localStorage.getItem('email') ?? 'eml'
@@ -127,7 +127,7 @@ const Dashbaord = () => {
               {userJobs.length > 0 ? (
                 userJobs.map(job => {
                   return (
-                    <div className={styles.job_list}>
+                    <div key={job.id} className={styles.job_list}>
                       <Job
                         letter={job.companyName[0]}
                         title={job.jobTitle}

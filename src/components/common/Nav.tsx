@@ -9,11 +9,13 @@ import styles from 'styles/nav.module.css'
 const Nav = () => {
   const { hasSignedIn: val, setHasSignedIn: setVal, isOrg } = useContext(AuthContext)
   const { setUserJobs } = useContext(JobContext)
-  const [hasSignedIn, setHasSignedIn] = useState(val)
+  const [, setHasSignedIn] = useState(val)
 
   useEffect(() => {
     const signedIn = localStorage.getItem('hasSignedIn')
-    setHasSignedIn(signedIn)
+    if (signedIn) {
+      setHasSignedIn(signedIn !== null)
+    }
   }, [])
 
   /**
@@ -26,8 +28,8 @@ const Nav = () => {
     setHasSignedIn(false)
     setVal(false)
     setUserJobs([])
-    localStorage.setItem('hasSignedIn', false)
-    localStorage.setItem('email', null)
+    localStorage.setItem('hasSignedIn', 'false')
+    localStorage.setItem('email', '')
   }
 
   return (

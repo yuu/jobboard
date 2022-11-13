@@ -1,52 +1,28 @@
-import { useEffect, useContext } from 'react'
+import { useEffect, useContext, useCallback } from 'react'
 import { useRouter } from 'next/router'
 import { AuthContext } from 'src/components/context/AuthContext'
-import { JobContext } from 'src/components/context/JobContext'
 import Input from 'src/components/common/Input'
 import HelperMsg from 'src/components/common/HelperMsg'
 import Button from 'src/components/common/Button'
 import styles from 'styles/auth.module.css'
 import fire from 'src/utils/firebase'
 import { FirebaseError } from '@firebase/app'
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
-import { getFirestore, doc, setDoc } from 'firebase/firestore'
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
 
 const Login = () => {
-  const { user, setUser } = useContext(AuthContext)
+  const { setUser } = useContext(AuthContext)
   const { email, setEmail } = useContext(AuthContext)
   const { password, setPassword } = useContext(AuthContext)
   const { emailErr, setEmailErr } = useContext(AuthContext)
   const { passwordErr, setPasswordErr } = useContext(AuthContext)
   const { setHasSignedIn, hasSignedIn } = useContext(AuthContext)
-  const { setIsOrg } = useContext(AuthContext)
-  const { userJobs, setUserJobs } = useContext(JobContext)
   const router = useRouter()
 
-  /**
-   *
-   *
-   * reset values ofo inputs to empty string
-   */
-  const clearInput = () => {
-    setEmail('')
-    setPassword('')
-  }
-
-  /**
-   *
-   *
-   * reset values of errors to empty string
-   */
   const clearErrs = () => {
     setEmailErr('')
     setPasswordErr('')
   }
 
-  /**
-   *
-   *
-   * logs in the systems
-   */
   const handleLogin = async () => {
     clearErrs()
     const auth = getAuth(fire)
@@ -54,7 +30,7 @@ const Login = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password)
       setHasSignedIn(true)
-      localStorage.setItem('hasSignedIn', true)
+      localStorage.setItem('hasSignedIn', 'true')
       localStorage.setItem('email', email)
       router.push('/dashboard')
     } catch (err) {
@@ -72,12 +48,7 @@ const Login = () => {
     }
   }
 
-  /**
-   *
-   *
-   * checks where the user is logged in or not
-   */
-  const authListener = () => {
+  const authListener = useCallback(() => {
     const auth = getAuth(fire)
     onAuthStateChanged(auth, user => {
       if (user) {
@@ -86,14 +57,14 @@ const Login = () => {
         setUser('')
       }
     })
-  }
+  }, [setUser])
 
   useEffect(() => {
     authListener()
     if (hasSignedIn) {
       router.push('/dashboard')
     }
-  }, [])
+  }, [authListener, router, hasSignedIn])
 
   return (
     <div className={styles.container}>

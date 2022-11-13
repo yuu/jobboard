@@ -1,8 +1,33 @@
-import { useState, createContext } from 'react'
+import { useState, createContext, ReactNode, Dispatch } from 'react'
 
-const HireContext = createContext()
+const HireContext = createContext({
+  jobTitle: '',
+  setJobTitle: (() => undefined) as Dispatch<string>,
+  jobType: 'Full-time',
+  setJobType: (() => undefined) as Dispatch<string>,
+  jobArea: '',
+  setJobArea: (() => undefined) as Dispatch<string>,
+  jobLink: '',
+  setJobLink: (() => undefined) as Dispatch<string>,
+  jobDescription: '',
+  setJobDescription: (() => undefined) as Dispatch<string>,
+  companyName: '',
+  setCompanyName: (() => undefined) as Dispatch<string>,
+  companyEmail: '',
+  setCompanyEmail: (() => undefined) as Dispatch<string>,
+  companyWebsite: '',
+  setCompanyWebsite: (() => undefined) as Dispatch<string>,
+  companyDescription: '',
+  setCompanyDescription: (() => undefined) as Dispatch<string>,
+  date: '',
+  setDate: (() => undefined) as Dispatch<string>
+})
 
-const HireProvider = ({ children }) => {
+interface HireProviderProps {
+  children: ReactNode
+}
+
+const HireProvider = ({ children }: HireProviderProps) => {
   // job states
   const [jobTitle, setJobTitle] = useState('')
   const [jobType, setJobType] = useState('Full-time')

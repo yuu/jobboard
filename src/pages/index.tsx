@@ -18,6 +18,7 @@ const Home: NextPage = () => {
         const job = snapshot?.data()?.allJobs
         if (job === undefined) {
           setJobs([])
+
           return
         }
         setJobs(job)

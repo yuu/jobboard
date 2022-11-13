@@ -1,7 +1,13 @@
 import Link from 'next/link'
 import styles from 'styles/helperMsg.module.css'
 
-const HelperMsg = ({ content, option, url }) => {
+interface HelperMsgProps {
+  content: string
+  option: string
+  url: string
+}
+
+const HelperMsg = ({ content, option, url }: HelperMsgProps) => {
   return (
     <div className={styles.container}>
       <p>
